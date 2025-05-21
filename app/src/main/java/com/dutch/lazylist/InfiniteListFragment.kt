@@ -4,6 +4,7 @@ import android.graphics.pdf.models.ListItem
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,9 @@ import com.dutch.lazylist.databinding.FragmentInfiniteListBinding
 
 
 class InfiniteListFragment : Fragment() {
-
-    private lateinit var binding: FragmentInfiniteListBinding
+    val TAG = "InfiniteListFragment"
+    private var _binding: FragmentInfiniteListBinding? = null
+    private val binding get() =  _binding!!
     private lateinit var listAdapter: InfiniteListAdapter
     private lateinit var dataList: List<ListItemData>
     private var page = 0
@@ -32,17 +34,21 @@ class InfiniteListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        Log.i(TAG, "onCreateView()")
+        _binding = FragmentInfiniteListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.i(TAG, "onViewCreated()")
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentInfiniteListBinding.bind(view)
+        _binding = FragmentInfiniteListBinding.bind(view)
         recyclerView = binding.rvListInfinite
+        Log.i(TAG, "here")
         listAdapter = InfiniteListAdapter(mutableListOf())
         recyclerView.adapter = listAdapter
-
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        loadMoreData()
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(rv, dx, dy)
@@ -60,6 +66,7 @@ class InfiniteListFragment : Fragment() {
 
 
     private fun loadMoreData() {
+        Log.i(TAG, "loadMoreData()")
         isLoading = true
 
         // Simulate delay
@@ -80,6 +87,12 @@ class InfiniteListFragment : Fragment() {
         }, 1000)
     }
 
+
+    override fun onDestroyView() {
+        Log.i(TAG, "onDestroyView()")
+        super.onDestroyView()
+        _binding = null
+    }
 
 
 }
