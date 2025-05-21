@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.dutch.lazylist.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_pagedListFragment"
+            app:destination="@id/pagedListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_infiniteListFragment"
+            app:destination="@id/infiniteListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infiniteListFragment"
+        android:name="com.dutch.lazylist.InfiniteListFragment"
+        android:label="fragment_infinite_list"
+        tools:layout="@layout/fragment_infinite_list" />
+    <fragment
+        android:id="@+id/pagedListFragment"
+        android:name="com.dutch.lazylist.PagedListFragment"
+        android:label="fragment_paged_list"
+        tools:layout="@layout/fragment_paged_list" />
+</navigation>
